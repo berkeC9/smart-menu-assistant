@@ -1,0 +1,26 @@
+# Default owner for repository configuration and shared files
+* @berkeC9
+
+# Backend models, database seed, and menu endpoints (Sevket Baran Aydogdu)
+/src/backend/models/ @berkeC9
+/src/backend/data/ @berkeC9
+/src/backend/api/menu_routes.py @berkeC9
+/src/backend/services/menu_service.py @berkeC9
+
+# AI service, allergen guard, and chat endpoints (Berke Cinkol)
+/src/backend/services/ai_service.py @berkeC9
+/src/backend/services/allergen_guard.py @berkeC9
+/src/backend/api/chat_routes.py @berkeC9
+/src/backend/api/allergen_routes.py @berkeC9
+
+# Frontend layout, menu cards, and filter controls (Muhammed Fatih Erayman)
+/src/frontend/index.html @berkeC9
+/src/frontend/css/main.css @berkeC9
+/src/frontend/js/menu.js @berkeC9
+/src/frontend/js/filters.js @berkeC9
+
+# Frontend chat widget, API client, and test suite (Enes Safa Akca)
+/src/frontend/css/chat.css @berkeC9
+/src/frontend/js/chat.js @berkeC9
+/src/frontend/js/api.js @berkeC9
+/tests/ @berkeC9
