@@ -1,0 +1,28 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Environment variables and secrets
+.env
+.env.local
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local course reference files
+Git_3.pdf
+bilgiler.png
+Konu*.png
