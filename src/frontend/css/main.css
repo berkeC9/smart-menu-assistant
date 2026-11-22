@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Smart Menu Assistant - Main Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Root Variables & Page Colors
+   -------------------------------------------------------------------------- */
+:root {
+  --sma-primary: #0d6efd;
+  --sma-primary-dark: #0a58ca;
+  --sma-accent: #198754;
+  --sma-danger: #dc3545;
+  --sma-warning: #ffc107;
+  --sma-bg-page: #f8f9fa;
+  --sma-card-bg: #ffffff;
+  --sma-card-border: #e9ecef;
+  --sma-text-main: #212529;
+  --sma-text-muted: #6c757d;
+  --sma-border-radius: 0.75rem;
+  --sma-transition: all 0.2s ease-in-out;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--sma-bg-page);
+  color: var(--sma-text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   Navbar & Hero Layout
+   -------------------------------------------------------------------------- */
+.navbar-brand .brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.hero-section {
+  background: linear-gradient(180deg, #ffffff 0%, var(--sma-bg-page) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   Filter Card & Interactive Pills
+   -------------------------------------------------------------------------- */
+.filter-card {
+  border-radius: var(--sma-border-radius);
+  background-color: var(--sma-card-bg);
+  border: 1px solid var(--sma-card-border);
+}
+
+.category-btn {
+  font-weight: 500;
+  transition: var(--sma-transition);
+}
+
+.category-btn.active {
+  background-color: var(--sma-primary);
+  color: #ffffff;
+  border-color: var(--sma-primary);
+  box-shadow: 0 2px 6px rgba(13, 110, 253, 0.25);
+}
+
+.allergen-pill,
+.diet-pill {
+  transition: var(--sma-transition);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-check:checked + .allergen-pill {
+  background-color: var(--sma-danger) !important;
+  color: #ffffff !important;
+  border-color: var(--sma-danger) !important;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
+  text-decoration: line-through;
+}
+
+.btn-check:checked + .diet-pill {
+  background-color: var(--sma-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--sma-accent) !important;
+  box-shadow: 0 2px 6px rgba(25, 135, 84, 0.25);
+}
+
+.form-range::-webkit-slider-thumb {
+  background-color: var(--sma-primary);
+}
