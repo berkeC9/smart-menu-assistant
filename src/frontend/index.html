@@ -71,6 +71,158 @@
 
   <!-- Main Container -->
   <main class="container my-4">
+
+    <!-- Filter Card -->
+    <section class="card filter-card shadow-sm border-0 mb-4" id="filters-container">
+      <div class="card-body p-4">
+
+        <!-- Search and Reset Bar -->
+        <div class="row g-3 align-items-center mb-3">
+          <div class="col-md-7">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control border-start-0 ps-0" id="search-input" placeholder="Search dishes or ingredients (e.g. salmon, mushroom, salad)...">
+            </div>
+          </div>
+          <div class="col-md-5 text-md-end">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill" id="reset-filters-btn" type="button">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <hr class="text-muted opacity-25 my-3">
+
+        <!-- Category Filters -->
+        <div class="mb-3">
+          <label class="form-label fw-bold text-dark small text-uppercase mb-2">
+            <i class="bi bi-grid-3x3-gap-fill me-1 text-primary"></i> Categories
+          </label>
+          <div class="d-flex flex-wrap gap-2" id="category-filter-group">
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn active" data-category="all">All Dishes</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="main">Main Courses</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="starters">Starters</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="salads">Salads</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="desserts">Desserts</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="beverages">Beverages</button>
+          </div>
+        </div>
+
+        <!-- Allergen Exclusion Filters -->
+        <div class="mb-3">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+            <label class="form-label fw-bold text-dark small text-uppercase mb-0">
+              <i class="bi bi-exclamation-triangle-fill text-danger me-1"></i> Exclude Allergens (Select Your Allergies)
+            </label>
+            <div class="form-check form-switch small mb-0">
+              <input class="form-check-input" type="checkbox" id="exclude-traces-toggle" checked>
+              <label class="form-check-label text-muted" for="exclude-traces-toggle">
+                Also exclude cross-contamination risk <span class="badge bg-secondary-subtle text-secondary">may_contain_traces</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="allergen-pills-container d-flex flex-wrap gap-2" id="allergen-filter-group">
+            <input type="checkbox" class="btn-check" id="allergen-peanut" value="peanut" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-peanut">
+              <i class="bi bi-x-circle me-1"></i> Peanut
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-tree-nut" value="tree_nut" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-tree-nut">
+              <i class="bi bi-x-circle me-1"></i> Tree Nut
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-dairy" value="dairy" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-dairy">
+              <i class="bi bi-x-circle me-1"></i> Dairy
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-gluten" value="gluten" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-gluten">
+              <i class="bi bi-x-circle me-1"></i> Gluten
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-egg" value="egg" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-egg">
+              <i class="bi bi-x-circle me-1"></i> Egg
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-soy" value="soy" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-soy">
+              <i class="bi bi-x-circle me-1"></i> Soy
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-seafood" value="seafood" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-seafood">
+              <i class="bi bi-x-circle me-1"></i> Seafood
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-sesame" value="sesame" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-sesame">
+              <i class="bi bi-x-circle me-1"></i> Sesame
+            </label>
+          </div>
+        </div>
+
+        <hr class="text-muted opacity-25 my-3">
+
+        <!-- Dietary, Calorie and Spice Controls -->
+        <div class="row g-3 align-items-center">
+
+          <!-- Dietary Switches -->
+          <div class="col-md-5">
+            <label class="form-label fw-bold text-dark small text-uppercase mb-2">
+              <i class="bi bi-heart-pulse-fill text-success me-1"></i> Dietary Preferences
+            </label>
+            <div class="d-flex flex-wrap gap-2">
+              <input type="checkbox" class="btn-check" id="diet-vegan" value="vegan" autocomplete="off">
+              <label class="btn btn-outline-success btn-sm rounded-pill diet-pill" for="diet-vegan">
+                <i class="bi bi-check2 me-1"></i> Vegan
+              </label>
+
+              <input type="checkbox" class="btn-check" id="diet-vegetarian" value="vegetarian" autocomplete="off">
+              <label class="btn btn-outline-success btn-sm rounded-pill diet-pill" for="diet-vegetarian">
+                <i class="bi bi-check2 me-1"></i> Vegetarian
+              </label>
+
+              <input type="checkbox" class="btn-check" id="diet-gluten-free" value="gluten_free" autocomplete="off">
+              <label class="btn btn-outline-success btn-sm rounded-pill diet-pill" for="diet-gluten-free">
+                <i class="bi bi-check2 me-1"></i> Gluten-Free
+              </label>
+            </div>
+          </div>
+
+          <!-- Calorie Target Slider -->
+          <div class="col-md-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label for="calorie-range" class="form-label fw-bold text-dark small text-uppercase mb-0">
+                <i class="bi bi-fire text-warning me-1"></i> Max Calories
+              </label>
+              <span class="badge bg-warning-subtle text-dark border px-2 py-1" id="calorie-display">1200 kcal</span>
+            </div>
+            <input type="range" class="form-range" min="150" max="1200" step="50" value="1200" id="calorie-range">
+          </div>
+
+          <!-- Spice Level Dropdown -->
+          <div class="col-md-3">
+            <label for="spice-select" class="form-label fw-bold text-dark small text-uppercase mb-1">
+              <i class="bi bi-fire text-danger me-1"></i> Spice Level
+            </label>
+            <select class="form-select form-select-sm" id="spice-select">
+              <option value="all" selected>Any Spice Level</option>
+              <option value="0">Mild / No Spice (0)</option>
+              <option value="1">Lightly Spicy (1)</option>
+              <option value="2">Medium Spicy (2)</option>
+              <option value="3">Extra Hot (3)</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- Bootstrap 5.3 Bundle JS -->
