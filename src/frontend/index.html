@@ -262,7 +262,10 @@
 
         <div class="modal-header border-bottom-0 pb-0">
           <div>
-            <span class="badge bg-primary-subtle text-primary mb-1 text-uppercase" id="modal-dish-category">Category</span>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge bg-primary-subtle text-primary text-uppercase" id="modal-dish-category">Category</span>
+              <span class="badge bg-success-subtle text-success fw-semibold" id="modal-dish-price">$0.00</span>
+            </div>
             <h1 class="modal-title fs-4 fw-bold text-dark" id="dishDetailModalLabel">Dish Name</h1>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -354,15 +357,8 @@
     </div>
   </div>
 
-  <!-- Chatbot Floating Container Hook (Package 4 integration mount point) -->
-  <div id="chat-widget-root"></div>
-
   <!-- Bootstrap 5.3 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-  <!-- Application Scripts (ES6 Modules) -->
-  <script type="module" src="js/menu.js"></script>
-  <script type="module" src="js/filters.js"></script>
 
 </body>
 </html>
