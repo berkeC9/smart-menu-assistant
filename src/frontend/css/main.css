@@ -93,3 +93,45 @@ body {
 .form-range::-webkit-slider-thumb {
   background-color: var(--sma-primary);
 }
+
+/* --------------------------------------------------------------------------
+   Dish Cards - Container & Image Dimensions
+   -------------------------------------------------------------------------- */
+.dish-card {
+  border-radius: var(--sma-border-radius);
+  background-color: var(--sma-card-bg);
+  border: 1px solid var(--sma-card-border);
+  transition: var(--sma-transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dish-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+  border-color: #ced4da;
+}
+
+.dish-card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #e9ecef;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dish-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.dish-card:hover .dish-card-image {
+  transform: scale(1.04);
+}
