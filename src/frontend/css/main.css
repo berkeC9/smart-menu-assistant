@@ -253,3 +253,69 @@ body {
   color: #b45309;
   border: 1px dashed #f59e0b;
 }
+
+/* --------------------------------------------------------------------------
+   Dietary Badges, Modal Box & Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+.badge-diet {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 20px;
+}
+
+.badge-diet-vegan {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-diet-vegetarian {
+  background-color: #ecfccb;
+  color: #3f6212;
+  border: 1px solid #d9f99d;
+}
+
+.badge-diet-gluten_free {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.spice-indicator {
+  color: var(--sma-danger);
+  font-size: 0.85rem;
+}
+
+.dish-modal-image-wrapper {
+  height: 240px;
+}
+
+.nutrition-box {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.menu-empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.menu-empty-state i {
+  font-size: 3rem;
+  color: #adb5bd;
+}
+
+@media (max-width: 768px) {
+  .dish-card-image-wrapper {
+    height: 180px;
+  }
+
+  .filter-card .card-body {
+    padding: 1.25rem;
+  }
+}
