@@ -6,16 +6,16 @@
    Root Variables & Page Colors
    -------------------------------------------------------------------------- */
 :root {
-  --sma-primary: #0d6efd;
-  --sma-primary-dark: #0a58ca;
-  --sma-accent: #198754;
-  --sma-danger: #dc3545;
-  --sma-warning: #ffc107;
-  --sma-bg-page: #f8f9fa;
+  --sma-primary: #2563eb;
+  --sma-primary-dark: #1d4ed8;
+  --sma-accent: #16a34a;
+  --sma-danger: #dc2626;
+  --sma-warning: #f59e0b;
+  --sma-bg-page: #f8fafc;
   --sma-card-bg: #ffffff;
-  --sma-card-border: #e9ecef;
-  --sma-text-main: #212529;
-  --sma-text-muted: #6c757d;
+  --sma-card-border: #e2e8f0;
+  --sma-text-main: #0f172a;
+  --sma-text-muted: #64748b;
   --sma-border-radius: 0.75rem;
   --sma-transition: all 0.2s ease-in-out;
 }
@@ -61,11 +61,17 @@ body {
   transition: var(--sma-transition);
 }
 
+.category-btn:hover {
+  background-color: var(--sma-primary-dark);
+  color: #ffffff;
+  border-color: var(--sma-primary-dark);
+}
+
 .category-btn.active {
   background-color: var(--sma-primary);
   color: #ffffff;
   border-color: var(--sma-primary);
-  box-shadow: 0 2px 6px rgba(13, 110, 253, 0.25);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
 }
 
 .allergen-pill,
