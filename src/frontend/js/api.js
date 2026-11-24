@@ -151,3 +151,39 @@ export function getAllergens() {
 export function getAllergenDetail(allergenCode) {
   return request(`/api/allergens/${encodeURIComponent(allergenCode)}`);
 }
+
+/**
+ * Send a message to the AI assistant via POST /api/chat.
+ * The backend filters the menu with the given allergens BEFORE calling the LLM,
+ * so recommended dishes are always safe for the user.
+ *
+ * @param {string} message - The user's natural language question.
+ * @param {Object} [context]
+ * @param {string[]} [context.excludeAllergens] - Allergens currently selected in the UI.
+ * @param {boolean} [context.excludeTraces] - Treat "may contain traces" as unsafe.
+ * @param {string[]} [context.diets] - Dietary preferences selected in the UI.
+ * @param {number} [context.maxCalories] - Calorie limit selected in the UI.
+ * @param {Array<{role: "user"|"assistant", content: string}>} [context.history]
+ *        Previous messages so the assistant can keep the conversation context.
+ * @returns {Promise<{reply: string, recommended_dishes?: Array<Object>}>}
+ */
+export function sendChatMessage(message, context = {}) {
+  const trimmed = (message || "").trim();
+  if (!trimmed) {
+    return Promise.reject(new ApiError("Message cannot be empty.", 400));
+  }
+
+  const payload = {
+    message: trimmed,
+    exclude_allergens: context.excludeAllergens || [],
+    exclude_traces: context.excludeTraces ?? true,
+    diets: context.diets || [],
+    max_calories: context.maxCalories ?? null,
+    history: (context.history || []).slice(-10),
+  };
+
+  return request("/api/chat", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
