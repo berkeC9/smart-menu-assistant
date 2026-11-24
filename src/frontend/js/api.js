@@ -122,3 +122,32 @@ export function getMenu(filters = {}) {
 export function getDishById(dishId) {
   return request(`/api/menu/${encodeURIComponent(dishId)}`);
 }
+
+/**
+ * Fetch all menu categories from GET /api/categories.
+ *
+ * @returns {Promise<any>}
+ */
+export function getCategories() {
+  return request("/api/categories");
+}
+
+/**
+ * Fetch supported allergen definitions from GET /api/allergens.
+ * Response shape: { count: number, items: [{ code, name, description, keywords }] }
+ *
+ * @returns {Promise<{count: number, items: Array<Object>}>}
+ */
+export function getAllergens() {
+  return request("/api/allergens");
+}
+
+/**
+ * Fetch a single allergen definition from GET /api/allergens/{code}.
+ *
+ * @param {string} allergenCode - e.g. "peanut", "tree_nut".
+ * @returns {Promise<Object>}
+ */
+export function getAllergenDetail(allergenCode) {
+  return request(`/api/allergens/${encodeURIComponent(allergenCode)}`);
+}
