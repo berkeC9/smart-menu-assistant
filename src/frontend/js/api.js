@@ -62,3 +62,63 @@ async function request(path, options = {}) {
 
   return data;
 }
+
+/**
+ * Build a query string from a filters object. Empty values are skipped and
+ * arrays are joined with commas (e.g. exclude_allergens=peanut,dairy).
+ *
+ * @param {Record<string, any>} params
+ * @returns {string} Query string including the leading "?" or an empty string.
+ */
+function buildQueryString(params = {}) {
+  const search = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    if (Array.isArray(value)) {
+      if (value.length === 0) return;
+      search.append(key, value.join(","));
+    } else {
+      search.append(key, String(value));
+    }
+  });
+  const query = search.toString();
+  return query ? `?${query}` : "";
+}
+
+/**
+ * Fetch menu items from GET /api/menu with optional filters.
+ *
+ * @param {Object} [filters]
+ * @param {string} [filters.search] - Free text search on name / ingredients.
+ * @param {string} [filters.category] - Category slug.
+ * @param {string[]} [filters.excludeAllergens] - Allergen codes to exclude.
+ * @param {boolean} [filters.excludeTraces] - Also exclude "may contain traces".
+ * @param {string[]} [filters.diets] - vegan, vegetarian, gluten_free.
+ * @param {number} [filters.maxCalories] - Calorie upper limit.
+ * @param {number} [filters.maxSpiceLevel] - Spice level upper limit.
+ * @param {string} [filters.sort] - Sort key (e.g. "price_asc").
+ * @returns {Promise<any>}
+ */
+export function getMenu(filters = {}) {
+  const query = buildQueryString({
+    search: filters.search,
+    category: filters.category,
+    exclude_allergens: filters.excludeAllergens,
+    exclude_traces: filters.excludeTraces,
+    diets: filters.diets,
+    max_calories: filters.maxCalories,
+    max_spice_level: filters.maxSpiceLevel,
+    sort: filters.sort,
+  });
+  return request(`/api/menu${query}`);
+}
+
+/**
+ * Fetch a single dish from GET /api/menu/{id}.
+ *
+ * @param {number|string} dishId
+ * @returns {Promise<any>}
+ */
+export function getDishById(dishId) {
+  return request(`/api/menu/${encodeURIComponent(dishId)}`);
+}
