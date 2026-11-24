@@ -9,6 +9,34 @@
 // setting window.SMA_API_BASE_URL before this module is loaded.
 const API_BASE_URL = (window.SMA_API_BASE_URL || "").replace(/\/+$/, "");
 
+const DEFAULT_TIMEOUT_MS = 10000;
+const CHAT_TIMEOUT_MS = 30000;
+
+// Categories and allergens rarely change, so we cache them for the session.
+const cache = new Map();
+
+/**
+ * Return a cached promise for the given key, or create it with the loader.
+ * Failed requests are removed from the cache so they can be retried.
+ */
+function cached(key, loader) {
+  if (!cache.has(key)) {
+    const promise = loader().catch((error) => {
+      cache.delete(key);
+      throw error;
+    });
+    cache.set(key, promise);
+  }
+  return cache.get(key);
+}
+
+/**
+ * Clear cached categories / allergens (useful after admin updates or in tests).
+ */
+export function clearApiCache() {
+  cache.clear();
+}
+
 /**
  * Error thrown when the backend returns a non-2xx response or cannot be reached.
  */
@@ -40,11 +68,21 @@ async function request(path, options = {}) {
     headers["Content-Type"] = "application/json";
   }
 
+  // Abort requests that take too long (LLM calls get a longer timeout).
+  const { timeout = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
   let response;
   try {
-    response = await fetch(url, { ...options, headers });
+    response = await fetch(url, { ...fetchOptions, headers, signal: controller.signal });
   } catch (networkError) {
+    if (networkError.name === "AbortError") {
+      throw new ApiError("The request timed out. Please try again.", 408, networkError);
+    }
     throw new ApiError("Unable to reach the server. Please try again.", 0, networkError);
+  } finally {
+    clearTimeout(timer);
   }
 
   const contentType = response.headers.get("content-type") || "";
@@ -129,7 +167,7 @@ export function getDishById(dishId) {
  * @returns {Promise<any>}
  */
 export function getCategories() {
-  return request("/api/categories");
+  return cached("categories", () => request("/api/categories"));
 }
 
 /**
@@ -139,7 +177,7 @@ export function getCategories() {
  * @returns {Promise<{count: number, items: Array<Object>}>}
  */
 export function getAllergens() {
-  return request("/api/allergens");
+  return cached("allergens", () => request("/api/allergens"));
 }
 
 /**
@@ -185,5 +223,6 @@ export function sendChatMessage(message, context = {}) {
   return request("/api/chat", {
     method: "POST",
     body: JSON.stringify(payload),
+    timeout: CHAT_TIMEOUT_MS,
   });
 }
