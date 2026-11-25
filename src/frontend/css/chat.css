@@ -193,3 +193,117 @@
   border-bottom: 1px solid #bbf7d0;
   flex-shrink: 0;
 }
+
+/* --------------------------------------------------------------------------
+   Message List & Bubbles
+   -------------------------------------------------------------------------- */
+.chat-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: var(--sma-bg-page, #f8fafc);
+  scroll-behavior: smooth;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 3px;
+}
+
+.chat-message {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: 85%;
+  animation: chat-message-in 0.2s ease-out;
+}
+
+.chat-message-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-message-assistant {
+  align-self: flex-start;
+}
+
+.chat-message-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  background-color: #dbeafe;
+  color: var(--sma-primary, #2563eb);
+}
+
+.chat-bubble {
+  padding: 0.6rem 0.85rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.chat-message-user .chat-bubble {
+  background-color: var(--chat-bubble-user-bg);
+  color: var(--chat-bubble-user-text);
+  border-bottom-right-radius: 0.3rem;
+}
+
+.chat-message-assistant .chat-bubble {
+  background-color: var(--chat-bubble-bot-bg);
+  color: var(--chat-bubble-bot-text);
+  border: 1px solid var(--sma-card-border, #e2e8f0);
+  border-bottom-left-radius: 0.3rem;
+}
+
+.chat-message-time {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.68rem;
+  opacity: 0.6;
+}
+
+.chat-message-user .chat-message-time {
+  text-align: right;
+}
+
+/* Error replies (network failure, timeout, etc.) */
+.chat-message-error .chat-bubble {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Centered system notices, e.g. "Conversation cleared" */
+.chat-system-note {
+  align-self: center;
+  font-size: 0.72rem;
+  color: var(--sma-text-muted, #64748b);
+  background-color: #e2e8f0;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+}
+
+@keyframes chat-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
