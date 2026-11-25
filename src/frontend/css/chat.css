@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Smart Menu Assistant - Chat Widget Styles
+   Floating AI assistant in the bottom-right corner: toggle button, chat
+   window, message bubbles and in-chat dish recommendation cards.
+   Uses the --sma-* design tokens defined in main.css.
+   ========================================================================== */
+
+:root {
+  --chat-width: 380px;
+  --chat-height: 560px;
+  --chat-offset: 24px;
+  --chat-radius: 1rem;
+  --chat-bubble-user-bg: var(--sma-primary, #2563eb);
+  --chat-bubble-user-text: #ffffff;
+  --chat-bubble-bot-bg: #f1f5f9;
+  --chat-bubble-bot-text: var(--sma-text-main, #0f172a);
+  --chat-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  --chat-z-index: 1080;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Toggle Button
+   -------------------------------------------------------------------------- */
+.chat-toggle-btn {
+  position: fixed;
+  right: var(--chat-offset);
+  bottom: var(--chat-offset);
+  z-index: var(--chat-z-index);
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sma-primary, #2563eb), var(--sma-primary-dark, #1d4ed8));
+  color: #ffffff;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.45);
+}
+
+.chat-toggle-btn:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.4);
+  outline-offset: 3px;
+}
+
+/* Icon swap: chat icon when closed, X icon when open */
+.chat-toggle-btn .chat-toggle-icon-close {
+  display: none;
+}
+
+.chat-toggle-btn.is-open .chat-toggle-icon-open {
+  display: none;
+}
+
+.chat-toggle-btn.is-open .chat-toggle-icon-close {
+  display: inline-block;
+}
+
+/* Small red dot for unread assistant replies */
+.chat-toggle-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--sma-danger, #dc2626);
+  border: 2px solid #ffffff;
+}
