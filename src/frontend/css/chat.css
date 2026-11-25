@@ -414,3 +414,173 @@
   background-color: #fffbeb;
   border-top: 1px dashed var(--sma-warning, #f59e0b);
 }
+
+/* --------------------------------------------------------------------------
+   Typing Indicator (assistant is thinking)
+   -------------------------------------------------------------------------- */
+.chat-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.7rem 0.9rem;
+}
+
+.chat-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #94a3b8;
+  animation: chat-typing-bounce 1.2s infinite ease-in-out;
+}
+
+.chat-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.chat-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes chat-typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Quick Suggestion Chips
+   -------------------------------------------------------------------------- */
+.chat-suggestions {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding: 0.5rem 1rem 0;
+  background-color: var(--sma-card-bg, #ffffff);
+  flex-shrink: 0;
+}
+
+.chat-suggestion-chip {
+  flex-shrink: 0;
+  border: 1px solid #bfdbfe;
+  background-color: #eff6ff;
+  color: var(--sma-primary-dark, #1d4ed8);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--sma-transition, all 0.2s ease-in-out);
+}
+
+.chat-suggestion-chip:hover {
+  background-color: var(--sma-primary, #2563eb);
+  border-color: var(--sma-primary, #2563eb);
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Input Area
+   -------------------------------------------------------------------------- */
+.chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--sma-card-border, #e2e8f0);
+  background-color: var(--sma-card-bg, #ffffff);
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1 1 auto;
+  resize: none;
+  min-height: 40px;
+  max-height: 110px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--sma-card-border, #e2e8f0);
+  border-radius: 20px;
+  background-color: var(--sma-bg-page, #f8fafc);
+  outline: none;
+  transition: var(--sma-transition, all 0.2s ease-in-out);
+}
+
+.chat-input:focus {
+  border-color: var(--sma-primary, #2563eb);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.chat-send-btn {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--sma-primary, #2563eb);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--sma-transition, all 0.2s ease-in-out);
+}
+
+.chat-send-btn:hover:not(:disabled) {
+  background-color: var(--sma-primary-dark, #1d4ed8);
+}
+
+.chat-send-btn:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.chat-disclaimer {
+  font-size: 0.65rem;
+  text-align: center;
+  color: var(--sma-text-muted, #64748b);
+  padding: 0 1rem 0.5rem;
+  background-color: var(--sma-card-bg, #ffffff);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive: full-screen chat on small devices
+   -------------------------------------------------------------------------- */
+@media (max-width: 576px) {
+  .chat-window {
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+
+  .chat-toggle-btn {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .chat-toggle-btn.is-open {
+    display: none;
+  }
+
+  .chat-message {
+    max-width: 92%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-window,
+  .chat-message,
+  .chat-typing span,
+  .chat-toggle-btn {
+    animation: none;
+    transition: none;
+  }
+}
