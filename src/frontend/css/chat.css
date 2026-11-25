@@ -75,3 +75,121 @@
   background-color: var(--sma-danger, #dc2626);
   border: 2px solid #ffffff;
 }
+
+/* --------------------------------------------------------------------------
+   Chat Window Container (open / close animation)
+   -------------------------------------------------------------------------- */
+.chat-window {
+  position: fixed;
+  right: var(--chat-offset);
+  bottom: calc(var(--chat-offset) + 76px);
+  z-index: var(--chat-z-index);
+  width: var(--chat-width);
+  height: var(--chat-height);
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sma-card-bg, #ffffff);
+  border: 1px solid var(--sma-card-border, #e2e8f0);
+  border-radius: var(--chat-radius);
+  box-shadow: var(--chat-shadow);
+  overflow: hidden;
+
+  /* Hidden state */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.97);
+  transform-origin: bottom right;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+}
+
+.chat-window.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+}
+
+/* --------------------------------------------------------------------------
+   Chat Header
+   -------------------------------------------------------------------------- */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(135deg, var(--sma-primary, #2563eb), var(--sma-primary-dark, #1d4ed8));
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.chat-header-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.chat-header-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.chat-header-status {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chat-header-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #4ade80;
+}
+
+.chat-header-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.chat-header-btn {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: var(--sma-transition, all 0.2s ease-in-out);
+}
+
+.chat-header-btn:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Shows which allergens the assistant is currently guarding against */
+.chat-guard-bar {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  background-color: #f0fdf4;
+  color: #166534;
+  border-bottom: 1px solid #bbf7d0;
+  flex-shrink: 0;
+}
