@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Smart Menu Assistant - Main Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Root Variables & Page Colors
+   -------------------------------------------------------------------------- */
+:root {
+  --sma-primary: #2563eb;
+  --sma-primary-dark: #1d4ed8;
+  --sma-accent: #16a34a;
+  --sma-danger: #dc2626;
+  --sma-warning: #f59e0b;
+  --sma-bg-page: #f8fafc;
+  --sma-card-bg: #ffffff;
+  --sma-card-border: #e2e8f0;
+  --sma-text-main: #0f172a;
+  --sma-text-muted: #64748b;
+  --sma-border-radius: 0.75rem;
+  --sma-transition: all 0.2s ease-in-out;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--sma-bg-page);
+  color: var(--sma-text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   Navbar & Hero Layout
+   -------------------------------------------------------------------------- */
+.navbar-brand .brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.hero-section {
+  background: linear-gradient(180deg, #ffffff 0%, var(--sma-bg-page) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   Filter Card & Interactive Pills
+   -------------------------------------------------------------------------- */
+.filter-card {
+  border-radius: var(--sma-border-radius);
+  background-color: var(--sma-card-bg);
+  border: 1px solid var(--sma-card-border);
+}
+
+.category-btn {
+  font-weight: 500;
+  transition: var(--sma-transition);
+}
+
+.category-btn:hover {
+  background-color: var(--sma-primary-dark);
+  color: #ffffff;
+  border-color: var(--sma-primary-dark);
+}
+
+.category-btn.active {
+  background-color: var(--sma-primary);
+  color: #ffffff;
+  border-color: var(--sma-primary);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.allergen-pill,
+.diet-pill {
+  transition: var(--sma-transition);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-check:checked + .allergen-pill {
+  background-color: var(--sma-danger) !important;
+  color: #ffffff !important;
+  border-color: var(--sma-danger) !important;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
+  text-decoration: line-through;
+}
+
+.btn-check:checked + .diet-pill {
+  background-color: var(--sma-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--sma-accent) !important;
+  box-shadow: 0 2px 6px rgba(25, 135, 84, 0.25);
+}
+
+.form-range::-webkit-slider-thumb {
+  background-color: var(--sma-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Dish Cards - Container & Image Dimensions
+   -------------------------------------------------------------------------- */
+.dish-card {
+  border-radius: var(--sma-border-radius);
+  background-color: var(--sma-card-bg);
+  border: 1px solid var(--sma-card-border);
+  transition: var(--sma-transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dish-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+  border-color: #ced4da;
+}
+
+.dish-card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #e9ecef;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dish-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.dish-card:hover .dish-card-image {
+  transform: scale(1.04);
+}
+
+/* --------------------------------------------------------------------------
+   Dish Cards - Typography, Overlay Badges & Footer
+   -------------------------------------------------------------------------- */
+.dish-card-category-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.dish-card-calories-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+}
+
+.dish-card-body {
+  padding: 1.25rem;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dish-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--sma-text-main);
+}
+
+.dish-card-description {
+  font-size: 0.875rem;
+  color: var(--sma-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.dish-card-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sma-card-border);
+}
+
+/* --------------------------------------------------------------------------
+   Allergen Badge Styles
+   -------------------------------------------------------------------------- */
+.badge-allergen {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.badge-allergen-peanut {
+  background-color: #fed7aa;
+  color: #9a3412;
+  border: 1px solid #fdba74;
+}
+
+.badge-allergen-tree_nut {
+  background-color: #fde68a;
+  color: #854d0e;
+  border: 1px solid #fcd34d;
+}
+
+.badge-allergen-dairy {
+  background-color: #e0f2fe;
+  color: #075985;
+  border: 1px solid #bae6fd;
+}
+
+.badge-allergen-gluten {
+  background-color: #fef08a;
+  color: #713f12;
+  border: 1px solid #fde047;
+}
+
+.badge-allergen-egg {
+  background-color: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fef08a;
+}
+
+.badge-allergen-soy {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.badge-allergen-seafood {
+  background-color: #cffafe;
+  color: #155e75;
+  border: 1px solid #a5f3fc;
+}
+
+.badge-allergen-sesame {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.badge-allergen-traces {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px dashed #f59e0b;
+}
+
+/* --------------------------------------------------------------------------
+   Dietary Badges, Modal Box & Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+.badge-diet {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 20px;
+}
+
+.badge-diet-vegan {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-diet-vegetarian {
+  background-color: #ecfccb;
+  color: #3f6212;
+  border: 1px solid #d9f99d;
+}
+
+.badge-diet-gluten_free {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.spice-indicator {
+  color: var(--sma-danger);
+  font-size: 0.85rem;
+}
+
+.dish-modal-image-wrapper {
+  height: 240px;
+}
+
+.nutrition-box {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.menu-empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.menu-empty-state i {
+  font-size: 3rem;
+  color: #adb5bd;
+}
+
+@media (max-width: 768px) {
+  .dish-card-image-wrapper {
+    height: 180px;
+  }
+
+  .filter-card .card-body {
+    padding: 1.25rem;
+  }
+}

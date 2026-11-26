@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Menu Assistant | AI-Powered Safe Dining</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
+        <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+        <span>Smart Menu Assistant</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+          <li class="nav-item">
+            <span class="nav-link active"><i class="bi bi-book-half me-1"></i> Menu</span>
+          </li>
+          <li class="nav-item">
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
+              <i class="bi bi-shield-shaded me-1"></i> Allergen Guard Active
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section py-4 bg-light border-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-6 fw-bold text-dark mb-2">Safe, Personalized & Delicious Dining</h1>
+          <p class="text-secondary mb-0">
+            Exclude your food allergens, set your dietary preferences and calorie targets, and explore safe dishes instantly.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <div class="d-inline-flex align-items-center gap-2 bg-white px-3 py-2 rounded-3 shadow-sm border">
+            <i class="bi bi-stars text-primary fs-4"></i>
+            <div class="text-start">
+              <div class="small fw-bold">AI Menu Assistant</div>
+              <div class="text-muted small">Ask questions via the chat widget</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container my-4">
+
+    <!-- Filter Card -->
+    <section class="card filter-card shadow-sm border-0 mb-4" id="filters-container">
+      <div class="card-body p-4">
+
+        <!-- Search and Reset Bar -->
+        <div class="row g-3 align-items-center mb-3">
+          <div class="col-md-7">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control border-start-0 ps-0" id="search-input" placeholder="Search dishes or ingredients (e.g. salmon, mushroom, salad)...">
+            </div>
+          </div>
+          <div class="col-md-5 text-md-end">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill" id="reset-filters-btn" type="button">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <hr class="text-muted opacity-25 my-3">
+
+        <!-- Category Filters -->
+        <div class="mb-3">
+          <label class="form-label fw-bold text-dark small text-uppercase mb-2">
+            <i class="bi bi-grid-3x3-gap-fill me-1 text-primary"></i> Categories
+          </label>
+          <div class="d-flex flex-wrap gap-2" id="category-filter-group">
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn active" data-category="all">All Dishes</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="main">Main Courses</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="starters">Starters</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="salads">Salads</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="desserts">Desserts</button>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill category-btn" data-category="beverages">Beverages</button>
+          </div>
+        </div>
+
+        <!-- Allergen Exclusion Filters -->
+        <div class="mb-3">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+            <label class="form-label fw-bold text-dark small text-uppercase mb-0">
+              <i class="bi bi-exclamation-triangle-fill text-danger me-1"></i> Exclude Allergens (Select Your Allergies)
+            </label>
+            <div class="form-check form-switch small mb-0">
+              <input class="form-check-input" type="checkbox" id="exclude-traces-toggle" checked>
+              <label class="form-check-label text-muted" for="exclude-traces-toggle">
+                Also exclude cross-contamination risk <span class="badge bg-secondary-subtle text-secondary">may_contain_traces</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="allergen-pills-container d-flex flex-wrap gap-2" id="allergen-filter-group">
+            <input type="checkbox" class="btn-check" id="allergen-peanut" value="peanut" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-peanut">
+              <i class="bi bi-x-circle me-1"></i> Peanut
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-tree-nut" value="tree_nut" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-tree-nut">
+              <i class="bi bi-x-circle me-1"></i> Tree Nut
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-dairy" value="dairy" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-dairy">
+              <i class="bi bi-x-circle me-1"></i> Dairy
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-gluten" value="gluten" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-gluten">
+              <i class="bi bi-x-circle me-1"></i> Gluten
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-egg" value="egg" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-egg">
+              <i class="bi bi-x-circle me-1"></i> Egg
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-soy" value="soy" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-soy">
+              <i class="bi bi-x-circle me-1"></i> Soy
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-seafood" value="seafood" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-seafood">
+              <i class="bi bi-x-circle me-1"></i> Seafood
+            </label>
+
+            <input type="checkbox" class="btn-check" id="allergen-sesame" value="sesame" autocomplete="off">
+            <label class="btn btn-outline-danger btn-sm rounded-pill allergen-pill" for="allergen-sesame">
+              <i class="bi bi-x-circle me-1"></i> Sesame
+            </label>
+          </div>
+        </div>
+
+        <hr class="text-muted opacity-25 my-3">
+
+        <!-- Dietary, Calorie and Spice Controls -->
+        <div class="row g-3 align-items-center">
+
+          <!-- Dietary Switches -->
+          <div class="col-md-5">
+            <label class="form-label fw-bold text-dark small text-uppercase mb-2">
+              <i class="bi bi-heart-pulse-fill text-success me-1"></i> Dietary Preferences
+            </label>
+            <div class="d-flex flex-wrap gap-2">
+              <input type="checkbox" class="btn-check" id="diet-vegan" value="vegan" autocomplete="off">
+              <label class="btn btn-outline-success btn-sm rounded-pill diet-pill" for="diet-vegan">
+                <i class="bi bi-check2 me-1"></i> Vegan
+              </label>
+
+              <input type="checkbox" class="btn-check" id="diet-vegetarian" value="vegetarian" autocomplete="off">
+              <label class="btn btn-outline-success btn-sm rounded-pill diet-pill" for="diet-vegetarian">
+                <i class="bi bi-check2 me-1"></i> Vegetarian
+              </label>
+
+              <input type="checkbox" class="btn-check" id="diet-gluten-free" value="gluten_free" autocomplete="off">
+              <label class="btn btn-outline-success btn-sm rounded-pill diet-pill" for="diet-gluten-free">
+                <i class="bi bi-check2 me-1"></i> Gluten-Free
+              </label>
+            </div>
+          </div>
+
+          <!-- Calorie Target Slider -->
+          <div class="col-md-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label for="calorie-range" class="form-label fw-bold text-dark small text-uppercase mb-0">
+                <i class="bi bi-fire text-warning me-1"></i> Max Calories
+              </label>
+              <span class="badge bg-warning-subtle text-dark border px-2 py-1" id="calorie-display">1200 kcal</span>
+            </div>
+            <input type="range" class="form-range" min="150" max="1200" step="50" value="1200" id="calorie-range">
+          </div>
+
+          <!-- Spice Level Dropdown -->
+          <div class="col-md-3">
+            <label for="spice-select" class="form-label fw-bold text-dark small text-uppercase mb-1">
+              <i class="bi bi-fire text-danger me-1"></i> Spice Level
+            </label>
+            <select class="form-select form-select-sm" id="spice-select">
+              <option value="all" selected>Any Spice Level</option>
+              <option value="0">Mild / No Spice (0)</option>
+              <option value="1">Lightly Spicy (1)</option>
+              <option value="2">Medium Spicy (2)</option>
+              <option value="3">Extra Hot (3)</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Menu Results Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="h5 fw-bold mb-0 text-dark">Menu Dishes</h2>
+        <span class="text-muted small" id="menu-counter">Loading dishes...</span>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-sort-down me-1"></i> Sort By
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+          <li><a class="dropdown-item active" href="#" data-sort="default">Recommended</a></li>
+          <li><a class="dropdown-item" href="#" data-sort="calorie-asc">Calories: Low to High</a></li>
+          <li><a class="dropdown-item" href="#" data-sort="calorie-desc">Calories: High to Low</a></li>
+          <li><a class="dropdown-item" href="#" data-sort="name-asc">Name: A - Z</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <section class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="menu-grid">
+      <!-- Dish cards will be dynamically rendered here by menu.js -->
+      <div class="col-12 text-center py-5" id="menu-loading-placeholder">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-2 small">Loading menu items, please wait...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Dish Detail Modal -->
+  <div class="modal fade" id="dishDetailModal" tabindex="-1" aria-labelledby="dishDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow">
+
+        <div class="modal-header border-bottom-0 pb-0">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge bg-primary-subtle text-primary text-uppercase" id="modal-dish-category">Category</span>
+              <span class="badge bg-success-subtle text-success fw-semibold" id="modal-dish-price">$0.00</span>
+            </div>
+            <h1 class="modal-title fs-4 fw-bold text-dark" id="dishDetailModalLabel">Dish Name</h1>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body pt-3">
+          <div class="row g-4">
+
+            <!-- Left: Image & Quick Badges -->
+            <div class="col-md-5">
+              <div class="dish-modal-image-wrapper rounded-3 overflow-hidden bg-light border d-flex align-items-center justify-content-center mb-3">
+                <img src="" alt="Dish preview" id="modal-dish-image" class="img-fluid w-100 h-100 object-fit-cover d-none">
+                <div id="modal-dish-image-placeholder" class="text-center p-4 text-muted">
+                  <i class="bi bi-image fs-1 opacity-50"></i>
+                  <div class="small mt-1">No image available</div>
+                </div>
+              </div>
+
+              <!-- Dietary & Spice Badges -->
+              <div class="d-flex flex-wrap gap-1 mb-2" id="modal-dish-diet-badges">
+                <!-- Dynamically populated (Vegan, Vegetarian, Gluten-Free) -->
+              </div>
+              <div id="modal-dish-spice" class="small text-muted mb-2">
+                <!-- Spice Level -->
+              </div>
+            </div>
+
+            <!-- Right: Details, Ingredients, Nutrition, Allergens -->
+            <div class="col-md-7">
+              <p class="text-secondary mb-3" id="modal-dish-description">
+                Dish description will appear here.
+              </p>
+
+              <!-- Nutrition Facts Box -->
+              <div class="nutrition-box p-3 rounded-3 bg-light border mb-3">
+                <h6 class="fw-bold mb-2 small text-uppercase text-muted">Nutrition Facts</h6>
+                <div class="row text-center g-2">
+                  <div class="col-3">
+                    <div class="fw-bold text-dark" id="modal-dish-calories">-</div>
+                    <div class="small text-muted text-xs">Calories</div>
+                  </div>
+                  <div class="col-3">
+                    <div class="fw-bold text-dark" id="modal-dish-protein">-</div>
+                    <div class="small text-muted text-xs">Protein</div>
+                  </div>
+                  <div class="col-3">
+                    <div class="fw-bold text-dark" id="modal-dish-carbs">-</div>
+                    <div class="small text-muted text-xs">Carbs</div>
+                  </div>
+                  <div class="col-3">
+                    <div class="fw-bold text-dark" id="modal-dish-fat">-</div>
+                    <div class="small text-muted text-xs">Fat</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ingredients List -->
+              <div class="mb-3">
+                <h6 class="fw-bold mb-1 small text-uppercase text-muted">Ingredients</h6>
+                <p class="small text-dark mb-0" id="modal-dish-ingredients">
+                  Ingredients list...
+                </p>
+              </div>
+
+              <!-- Allergen Warning Section -->
+              <div class="mb-3">
+                <h6 class="fw-bold mb-1 small text-uppercase text-danger">Contains Allergens</h6>
+                <div class="d-flex flex-wrap gap-1" id="modal-dish-allergens">
+                  <!-- Badges for direct allergens -->
+                </div>
+              </div>
+
+              <!-- Cross Contamination Warning (May contain traces) -->
+              <div class="alert alert-warning py-2 px-3 small mb-0 d-none" id="modal-dish-traces-container" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                <strong>Cross-Contamination Warning:</strong> May contain traces of <span id="modal-dish-traces"></span>.
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer border-top-0 pt-0">
+          <button type="button" class="btn btn-secondary btn-sm px-4 rounded-pill" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5.3 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>
