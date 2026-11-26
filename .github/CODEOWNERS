@@ -1,26 +1,28 @@
 # Default owner for repository configuration and shared files
 * @berkeC9
 
-# Backend models, database seed, and menu endpoints (Sevket Baran Aydogdu)
-/src/backend/models/ @berkeC9
-/src/backend/data/ @berkeC9
-/src/backend/api/menu_routes.py @berkeC9
-/src/backend/services/menu_service.py @berkeC9
-
-# AI service, allergen guard, and chat endpoints (Berke Cinkol)
+# Package 1: AI service, allergen guard, and core backend setup (Berke Cinkol)
+/src/backend/main.py @berkeC9
+/src/backend/config.py @berkeC9
 /src/backend/services/ai_service.py @berkeC9
 /src/backend/services/allergen_guard.py @berkeC9
 /src/backend/api/chat_routes.py @berkeC9
 /src/backend/api/allergen_routes.py @berkeC9
 
-# Frontend layout, menu cards, and filter controls (Muhammed Fatih Erayman)
-/src/frontend/index.html @berkeC9
-/src/frontend/css/main.css @berkeC9
-/src/frontend/js/menu.js @berkeC9
-/src/frontend/js/filters.js @berkeC9
+# Package 2: Database models, seed menu dataset, and menu endpoints (Enes Safa Akca)
+/src/backend/models/ @en3sa @berkeC9
+/src/backend/data/ @en3sa @berkeC9
+/src/backend/api/menu_routes.py @en3sa @berkeC9
+/src/backend/services/menu_service.py @en3sa @berkeC9
 
-# Frontend chat widget, API client, and test suite (Enes Safa Akca)
-/src/frontend/css/chat.css @berkeC9
-/src/frontend/js/chat.js @berkeC9
-/src/frontend/js/api.js @berkeC9
-/tests/ @berkeC9
+# Package 3: Frontend layout, menu cards, and filter controls (Muhammed Fatih Erayman)
+/src/frontend/index.html @Fatigue03 @berkeC9
+/src/frontend/css/main.css @Fatigue03 @berkeC9
+/src/frontend/js/menu.js @Fatigue03 @berkeC9
+/src/frontend/js/filters.js @Fatigue03 @berkeC9
+
+# Package 4: Frontend chat widget, API client, and test suite (Sevket Baran Aydogdu)
+/src/frontend/css/chat.css @barnless @berkeC9
+/src/frontend/js/chat.js @barnless @berkeC9
+/src/frontend/js/api.js @barnless @berkeC9
+/tests/ @barnless @berkeC9
