@@ -45,10 +45,10 @@ smart-menu-assistant/
 
 ## Team Members (Group 6)
 
-- **Berke Cinkol** (`@berkeC9`) - AI Assistant Service, Allergen Guard, and Chat API
-- **Sevket Baran Aydogdu** - Database Models, Seed Data, and Menu API
-- **Muhammed Fatih Erayman** - Frontend Menu Grid, Dish Modals, and Filter UI
-- **Enes Safa Akca** - Frontend Chat Widget, API Client, and Test Suite
+- **Berke Cinkol** (`@berkeC9`) - Core Backend Setup, Allergen Guard Service, and AI Assistant API
+- **Enes Safa Akca** (`@en3sa`) - Database Models, Menu Seed Dataset, and Menu API Endpoints
+- **Muhammed Fatih Erayman** (`@Fatigue03`) - Frontend Layout, Menu Cards, Dish Modals, and Filter UI
+- **Sevket Baran Aydogdu** (`@barnless`) - Frontend Chat Widget, API Client Module, and Test Suite
 
 ## Local Setup
 
