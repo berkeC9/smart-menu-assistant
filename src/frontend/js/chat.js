@@ -238,6 +238,135 @@ function updateGuardBar() {
 }
 
 /* --------------------------------------------------------------------------
+   Recommended dish cards
+   -------------------------------------------------------------------------- */
+
+const DIET_LABELS = [
+  ["is_vegan", "vegan", "Vegan"],
+  ["is_vegetarian", "vegetarian", "Vegetarian"],
+  ["is_gluten_free", "gluten_free", "Gluten-Free"],
+];
+
+function formatPrice(price) {
+  const value = Number(price);
+  return Number.isFinite(value) ? `$${value.toFixed(2)}` : "";
+}
+
+function createBadge(className, text) {
+  const badge = document.createElement("span");
+  badge.className = className;
+  badge.textContent = text;
+  return badge;
+}
+
+/**
+ * Build a small clickable card for a dish recommended by the assistant.
+ *
+ * @param {Object} dish - DishResponse from the backend.
+ * @param {string[]} excludedAllergens - Allergens the user asked to avoid.
+ * @returns {HTMLElement}
+ */
+function createDishCard(dish, excludedAllergens) {
+  const card = document.createElement("article");
+  card.className = "chat-dish-card";
+  card.tabIndex = 0;
+  card.setAttribute("role", "button");
+  card.setAttribute("aria-label", `View details for ${dish.name}`);
+  card.dataset.dishId = dish.id;
+
+  if (dish.image_url) {
+    const img = document.createElement("img");
+    img.className = "chat-dish-card-image";
+    img.src = dish.image_url;
+    img.alt = dish.name;
+    img.loading = "lazy";
+    img.addEventListener("error", () => img.remove());
+    card.appendChild(img);
+  }
+
+  const body = document.createElement("div");
+  body.className = "chat-dish-card-body";
+
+  const title = document.createElement("h3");
+  title.className = "chat-dish-card-title";
+  title.textContent = dish.name;
+  title.title = dish.name;
+  body.appendChild(title);
+
+  const meta = document.createElement("div");
+  meta.className = "chat-dish-card-meta";
+  const calories = dish.nutrition_facts && dish.nutrition_facts.calories;
+  const info = document.createElement("span");
+  info.textContent = calories != null ? `${calories} kcal` : dish.category || "";
+  const price = document.createElement("span");
+  price.className = "chat-dish-card-price";
+  price.textContent = formatPrice(dish.price);
+  meta.append(info, price);
+  body.appendChild(meta);
+
+  const badges = document.createElement("div");
+  badges.className = "chat-dish-card-badges";
+  DIET_LABELS.forEach(([field, code, label]) => {
+    if (dish[field]) badges.appendChild(createBadge(`badge-diet badge-diet-${code}`, label));
+  });
+  (dish.allergens || []).forEach((code) => {
+    badges.appendChild(createBadge(`badge-allergen badge-allergen-${code}`, formatAllergen(code)));
+  });
+  if (badges.childElementCount > 0) body.appendChild(badges);
+  card.appendChild(body);
+
+  // Safety strip: confirm the dish is free of the user's allergens,
+  // or warn about possible cross-contamination.
+  const traces = dish.may_contain_traces || [];
+  const safe = document.createElement("div");
+  safe.className = "chat-dish-card-safe";
+  if (traces.length > 0) {
+    safe.classList.add("has-traces");
+    safe.textContent = `May contain traces: ${traces.map(formatAllergen).join(", ")}`;
+  } else if (excludedAllergens.length > 0) {
+    safe.textContent = "\u2713 Safe for your allergens";
+  } else {
+    safe.textContent = "\u2713 No trace warnings";
+  }
+  card.appendChild(safe);
+
+  const openDetails = () => {
+    // menu.js listens for this event and opens the dish detail modal.
+    document.dispatchEvent(new CustomEvent("sma:show-dish", { detail: { dishId: dish.id, dish } }));
+  };
+  card.addEventListener("click", openDetails);
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openDetails();
+    }
+  });
+
+  return card;
+}
+
+/**
+ * Render recommended dishes as a horizontal list of cards under a bubble.
+ *
+ * @param {HTMLElement} container - Element returned by appendMessage().
+ * @param {Array<Object>} dishes
+ * @param {string[]} excludedAllergens
+ */
+function renderRecommendations(container, dishes, excludedAllergens) {
+  if (!Array.isArray(dishes) || dishes.length === 0) return;
+
+  const list = document.createElement("div");
+  list.className = "chat-recommendations";
+  list.setAttribute("aria-label", "Recommended dishes");
+  dishes.forEach((dish) => list.appendChild(createDishCard(dish, excludedAllergens)));
+
+  // Place cards between the bubble and the timestamp.
+  const time = container.querySelector(".chat-message-time");
+  container.insertBefore(list, time);
+  scrollToBottom();
+}
+
+/* --------------------------------------------------------------------------
    Input handling
    -------------------------------------------------------------------------- */
 
@@ -276,14 +405,16 @@ export async function sendMessage(text) {
   showTyping();
 
   try {
+    const context = getFilterContext();
     const response = await sendChatMessage(message, {
-      ...getFilterContext(),
+      ...context,
       history: state.history,
     });
 
     hideTyping();
     const reply = (response && response.reply) || "Sorry, I couldn't come up with an answer.";
-    appendMessage("assistant", reply);
+    const container = appendMessage("assistant", reply);
+    renderRecommendations(container, response && response.recommended_dishes, context.excludeAllergens);
 
     // Only store successful turns so failed requests can simply be retried.
     state.history.push({ role: "user", content: message });
