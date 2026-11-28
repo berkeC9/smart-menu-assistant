@@ -25,6 +25,16 @@ const MAX_INPUT_LENGTH = 1000;
 const WELCOME_MESSAGE =
   "Hi! I'm your menu assistant. Tell me about your allergies or diet and I'll suggest dishes that are safe for you.";
 
+// Example questions shown as quick reply chips above the input.
+const QUICK_QUESTIONS = [
+  "I have a peanut allergy, what can I eat?",
+  "Which dishes are vegan?",
+  "Suggest a gluten-free main course",
+  "Something light under 500 calories?",
+  "What's dairy-free for dessert?",
+  "Which dishes are not spicy?",
+];
+
 // DOM references, resolved once in initChat().
 const els = {};
 
@@ -402,6 +412,7 @@ export async function sendMessage(text) {
 
   state.isSending = true;
   updateSendButton();
+  setSuggestionsDisabled(true);
   showTyping();
 
   try {
@@ -428,7 +439,42 @@ export async function sendMessage(text) {
   } finally {
     state.isSending = false;
     updateSendButton();
+    setSuggestionsDisabled(false);
   }
+}
+
+/* --------------------------------------------------------------------------
+   Quick questions & clearing the conversation
+   -------------------------------------------------------------------------- */
+
+function renderSuggestions() {
+  if (!els.suggestions) return;
+  els.suggestions.innerHTML = "";
+  QUICK_QUESTIONS.forEach((question) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chat-suggestion-chip";
+    chip.textContent = question;
+    chip.addEventListener("click", () => sendMessage(question));
+    els.suggestions.appendChild(chip);
+  });
+}
+
+function setSuggestionsDisabled(disabled) {
+  if (!els.suggestions) return;
+  els.suggestions.querySelectorAll("button").forEach((chip) => {
+    chip.disabled = disabled;
+  });
+}
+
+export function clearConversation() {
+  if (state.isSending) return;
+  state.history = [];
+  els.messages.innerHTML = "";
+  appendSystemNote("Conversation cleared");
+  appendMessage("assistant", WELCOME_MESSAGE);
+  resetInput();
+  els.input.focus();
 }
 
 /* --------------------------------------------------------------------------
@@ -438,6 +484,7 @@ export async function sendMessage(text) {
 function bindEvents() {
   els.toggleBtn.addEventListener("click", toggleChat);
   if (els.closeBtn) els.closeBtn.addEventListener("click", closeChat);
+  if (els.clearBtn) els.clearBtn.addEventListener("click", clearConversation);
 
   // Escape closes the chat window.
   document.addEventListener("keydown", (event) => {
@@ -471,6 +518,7 @@ export function initChat() {
   if (!cacheElements()) return;
   bindEvents();
   updateGuardBar();
+  renderSuggestions();
   appendMessage("assistant", WELCOME_MESSAGE);
 }
 
