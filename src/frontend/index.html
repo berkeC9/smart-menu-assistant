@@ -358,8 +358,60 @@
     </div>
   </div>
 
+  <!-- AI Chat Widget: floating toggle button -->
+  <button type="button" class="chat-toggle-btn" id="chat-toggle-btn" aria-controls="chat-window" aria-expanded="false" aria-label="Open menu assistant chat">
+    <i class="bi bi-chat-dots-fill chat-toggle-icon-open" aria-hidden="true"></i>
+    <i class="bi bi-x-lg chat-toggle-icon-close" aria-hidden="true"></i>
+    <span class="chat-toggle-badge d-none" id="chat-toggle-badge" aria-hidden="true"></span>
+  </button>
+
+  <!-- AI Chat Widget: chat window -->
+  <section class="chat-window" id="chat-window" role="dialog" aria-modal="false" aria-labelledby="chat-title" aria-hidden="true">
+    <div class="chat-header">
+      <div class="chat-header-avatar" aria-hidden="true"><i class="bi bi-stars"></i></div>
+      <div>
+        <h2 class="chat-header-title" id="chat-title">Menu Assistant</h2>
+        <span class="chat-header-status">Online &middot; Allergen-aware</span>
+      </div>
+      <div class="chat-header-actions">
+        <button type="button" class="chat-header-btn" id="chat-clear-btn" title="Clear conversation" aria-label="Clear conversation">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+        <button type="button" class="chat-header-btn" id="chat-close-btn" title="Close chat" aria-label="Close chat">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="chat-guard-bar" id="chat-guard-bar">
+      <i class="bi bi-shield-check me-1"></i> No allergens selected yet.
+    </div>
+
+    <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions">
+      <!-- Messages are rendered here by chat.js -->
+    </div>
+
+    <div class="chat-suggestions" id="chat-suggestions" aria-label="Quick questions">
+      <!-- Quick question chips are rendered here by chat.js -->
+    </div>
+
+    <form class="chat-input-area" id="chat-form" autocomplete="off">
+      <label for="chat-input" class="visually-hidden">Ask the menu assistant</label>
+      <textarea class="chat-input" id="chat-input" rows="1" maxlength="1000" placeholder="Ask about dishes, allergens, calories..."></textarea>
+      <button type="submit" class="chat-send-btn" id="chat-send-btn" aria-label="Send message" disabled>
+        <i class="bi bi-send-fill"></i>
+      </button>
+    </form>
+    <div class="chat-disclaimer">
+      AI suggestions are pre-filtered for your allergens. Always confirm with staff if you have a severe allergy.
+    </div>
+  </section>
+
   <!-- Bootstrap 5.3 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- App Scripts (ES modules) -->
+  <script type="module" src="js/chat.js"></script>
 
 </body>
 </html>
