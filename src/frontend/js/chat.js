@@ -11,6 +11,8 @@
  * Styles live in css/chat.css.
  */
 
+import { sendChatMessage } from "./api.js";
+
 const state = {
   isOpen: false,
   isSending: false,
@@ -150,6 +152,92 @@ function appendSystemNote(text) {
 }
 
 /* --------------------------------------------------------------------------
+   Typing indicator
+   -------------------------------------------------------------------------- */
+
+function showTyping() {
+  hideTyping();
+  const wrapper = document.createElement("div");
+  wrapper.className = "chat-message chat-message-assistant";
+  wrapper.id = "chat-typing-indicator";
+  wrapper.setAttribute("aria-label", "Assistant is typing");
+  wrapper.innerHTML = `
+    <div class="chat-message-avatar" aria-hidden="true"><i class="bi bi-stars"></i></div>
+    <div class="chat-bubble chat-typing"><span></span><span></span><span></span></div>
+  `;
+  els.messages.appendChild(wrapper);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const indicator = document.getElementById("chat-typing-indicator");
+  if (indicator) indicator.remove();
+}
+
+/* --------------------------------------------------------------------------
+   Filter context (read from the filter panel in index.html)
+   -------------------------------------------------------------------------- */
+
+const ALLERGEN_LABELS = {
+  peanut: "Peanut",
+  tree_nut: "Tree Nut",
+  dairy: "Dairy",
+  gluten: "Gluten",
+  egg: "Egg",
+  soy: "Soy",
+  seafood: "Seafood",
+  sesame: "Sesame",
+};
+
+function formatAllergen(code) {
+  return ALLERGEN_LABELS[code] || code.replace(/_/g, " ");
+}
+
+/**
+ * Collect the allergen / diet / calorie filters currently selected in the UI
+ * so the backend can pre-filter the menu before asking the LLM.
+ */
+function getFilterContext() {
+  const checkedValues = (selector) =>
+    Array.from(document.querySelectorAll(selector)).map((input) => input.value);
+
+  const tracesToggle = document.getElementById("exclude-traces-toggle");
+  const calorieRange = document.getElementById("calorie-range");
+
+  let maxCalories = null;
+  if (calorieRange) {
+    const value = Number(calorieRange.value);
+    // The slider's max value means "no limit".
+    if (value && value < Number(calorieRange.max)) maxCalories = value;
+  }
+
+  return {
+    excludeAllergens: checkedValues("#allergen-filter-group input[type='checkbox']:checked"),
+    excludeTraces: tracesToggle ? tracesToggle.checked : true,
+    diets: checkedValues("input[id^='diet-']:checked"),
+    maxCalories,
+  };
+}
+
+// Show which allergens the assistant is guarding against.
+function updateGuardBar() {
+  if (!els.guardBar) return;
+  const { excludeAllergens, excludeTraces } = getFilterContext();
+
+  if (excludeAllergens.length === 0) {
+    els.guardBar.innerHTML = '<i class="bi bi-shield-check me-1"></i> No allergens selected yet.';
+    return;
+  }
+
+  const names = excludeAllergens.map(formatAllergen).join(", ");
+  const traces = excludeTraces ? " (incl. traces)" : "";
+  els.guardBar.innerHTML = '<i class="bi bi-shield-check me-1"></i> Guarding against: ';
+  const strong = document.createElement("strong");
+  strong.textContent = `${names}${traces}`;
+  els.guardBar.appendChild(strong);
+}
+
+/* --------------------------------------------------------------------------
    Input handling
    -------------------------------------------------------------------------- */
 
@@ -181,8 +269,35 @@ export async function sendMessage(text) {
   if (!message || state.isSending) return;
 
   appendMessage("user", message);
-  state.history.push({ role: "user", content: message });
   resetInput();
+
+  state.isSending = true;
+  updateSendButton();
+  showTyping();
+
+  try {
+    const response = await sendChatMessage(message, {
+      ...getFilterContext(),
+      history: state.history,
+    });
+
+    hideTyping();
+    const reply = (response && response.reply) || "Sorry, I couldn't come up with an answer.";
+    appendMessage("assistant", reply);
+
+    // Only store successful turns so failed requests can simply be retried.
+    state.history.push({ role: "user", content: message });
+    state.history.push({ role: "assistant", content: reply.slice(0, 4000) });
+
+    if (!state.isOpen) setUnread(true);
+  } catch (error) {
+    hideTyping();
+    const text = (error && error.message) || "Something went wrong. Please try again.";
+    appendMessage("assistant", text, { isError: true });
+  } finally {
+    state.isSending = false;
+    updateSendButton();
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -215,11 +330,16 @@ function bindEvents() {
       sendMessage(els.input.value);
     }
   });
+
+  // Keep the guard bar in sync with the filter panel.
+  const filters = document.getElementById("filters-container");
+  if (filters) filters.addEventListener("change", updateGuardBar);
 }
 
 export function initChat() {
   if (!cacheElements()) return;
   bindEvents();
+  updateGuardBar();
   appendMessage("assistant", WELCOME_MESSAGE);
 }
 
